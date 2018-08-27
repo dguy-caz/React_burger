@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import cssClasses from './Layout.css'
+import cssClasses from './Layout.css';
 
 const layout = (props) => (
   <Fragment>
