@@ -31,14 +31,29 @@ class BurgerBuilder extends Component {
       totalPrice: newPrice,
       ingredients: newIngredients
     });
-    console.log(newIngredients);
   }
   
+  removeIngredientHandler = (type) => {
+    if (this.state.ingredients[type] <= 0)
+      return;
+    const newIngredients = {...this.state.ingredients};
+    newIngredients[type] = this.state.ingredients[type] - 1;
+
+    const newPrice = this.state.totalPrice - INGREDIENTS_PRICE[type];
+
+    this.setState({
+      totalPrice: newPrice,
+      ingredients: newIngredients
+    });
+  }
+
   render () {
     return (
       <Fragment>
         <Burger ingredients={this.state.ingredients} />
-        <Controls ingredientAdded={this.addIngredientHandler}/>
+        <Controls 
+          ingredientAdded={this.addIngredientHandler}
+          ingredientRemoved={this.removeIngredientHandler}/>
       </Fragment>
     );
   }
