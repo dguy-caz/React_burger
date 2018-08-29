@@ -1,6 +1,6 @@
 import React from 'react';
-import Control from './Control/Control'
-import cssClasses from './Controls.css'
+import Control from './Control/Control';
+import cssClasses from './Controls.css';
 
 const controlsArray = [
   {label: 'Salad', type: 'salad'},
@@ -11,13 +11,19 @@ const controlsArray = [
 
 const controls = (props) => (
   <div className={cssClasses.Controls}>
+    <p>Current price: <strong>{props.price.toFixed(2)}</strong>€</p>
     {controlsArray.map(ctrl => (
       <Control
         key={ctrl.label}
         label={ctrl.label}
         added={() => props.ingredientAdded(ctrl.type)}
-        removed={() => props.ingredientRemoved(ctrl.type)} />
+        removed={() => props.ingredientRemoved(ctrl.type)}
+        disabled={props.disabled[ctrl.type]} />
     ))}
+    <button
+      className={cssClasses.OrderButton}
+      disabled={!props.purchasable}
+      onClick={props.ordered}>ORDER NOW</button>
   </div>
 );
 

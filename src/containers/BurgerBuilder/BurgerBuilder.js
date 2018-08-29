@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import Burger from '../../components/Burger/Burger'
-import Controls from '../../components/Burger/Controls/Controls'
+import Burger from '../../components/Burger/Burger';
+import Controls from '../../components/Burger/Controls/Controls';
+import Modal from '../../components/UI/Modal/Modal';
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 
 const INGREDIENTS_PRICE = {
   salad: 0.3,
@@ -18,7 +20,8 @@ class BurgerBuilder extends Component {
       cheese: 0,
       meat: 0
     },
-    totalPrice: 3
+    totalPrice: 3,
+    commandOrdered: false
   }
 
   addIngredientHandler = (type) => {
@@ -29,7 +32,7 @@ class BurgerBuilder extends Component {
 
     this.setState({
       totalPrice: newPrice,
-      ingredients: newIngredients
+      ingredients: newIngredients,
     });
   }
   
@@ -43,17 +46,37 @@ class BurgerBuilder extends Component {
 
     this.setState({
       totalPrice: newPrice,
-      ingredients: newIngredients
+      ingredients: newIngredients,
     });
   }
 
+  toggleSummaryHandler = () => {
+    this.setState({commandOrdered: true});
+  }
+
+  cancelCommandHandler = () => {
+    this.setState({commandOrdered: false});
+  }
+
+
   render () {
+    const disableClick = {...this.state.ingredients};
+    for (let key in disableClick)
+      disableClick[key] = disableClick[key] <= 0;
+
     return (
       <Fragment>
+        <Modal show={this.state.commandOrdered} modalClosed={this.cancelCommandHandler}>
+          <OrderSummary ingredients={this.state.ingredients}/>
+        </Modal>
         <Burger ingredients={this.state.ingredients} />
         <Controls 
           ingredientAdded={this.addIngredientHandler}
-          ingredientRemoved={this.removeIngredientHandler}/>
+          ingredientRemoved={this.removeIngredientHandler}
+          disabled={disableClick}
+          price={this.state.totalPrice}
+          purchasable={this.state.totalPrice > 3}
+          ordered={this.toggleSummaryHandler} />
       </Fragment>
     );
   }
