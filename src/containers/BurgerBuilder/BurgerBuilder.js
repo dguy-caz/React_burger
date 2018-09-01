@@ -21,13 +21,17 @@ class BurgerBuilder extends Component {
     ingredients: null,
     totalPrice: 3,
     commandOrdered: false,
-    loading: false
+    loading: false,
+    error: false
   }
 
   componentDidMount() {
     axios.request('https://burger-react-project-9a7f3.firebaseio.com/ingredients.json')
       .then(response => {
         this.setState({ingredients: response.data});
+      })
+      .catch(error =>{
+        this.setState({error: true})
       })
   }
 
@@ -102,14 +106,14 @@ class BurgerBuilder extends Component {
 
   render () {
     
-    let burger = <Spinner />
+    let burger = this.state.error ? <p style={{textAlign: 'center'}}>The ingredients can't be loaded...</p> : <Spinner />;
     let orderSummary = null;
 
     if (this.state.ingredients) {
       const disableClick = { ...this.state.ingredients };
         for (let key in disableClick)
           disableClick[key] = disableClick[key] <= 0;
-          
+
       burger = (
         <Fragment>
           <Burger ingredients={this.state.ingredients} />
