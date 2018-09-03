@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
+import { Route } from 'react-router-dom';
+import UserData from './UserData/UserData';
 
 class Checkout extends Component {
-  state = {...this.props.history.location.state} 
+
+  componentWillMount() {
+    this.setState({ ...this.props.history.location.state });
+  }
 
   checkoutCancelHandler = () => {
     this.props.history.goBack();
@@ -13,12 +18,22 @@ class Checkout extends Component {
   }
 
   render() {
+    let checkoutSummary = null;
+    if (this.state.ingredients)
+      checkoutSummary = <CheckoutSummary
+        ingredients={this.state.ingredients}
+        checkoutCancelled={this.checkoutCancelHandler}
+        checkoutConfirmed={this.checkoutConfirmHandler} />
+    else
+      checkoutSummary = <h3 
+      style={{ textAlign: 'center' }}>Your burger is empty, please choose your ingredients again</h3>
+
     return (
       <div>
-        <CheckoutSummary
-          ingredients={this.state.ingredients}
-          checkoutCancelled={this.checkoutCancelHandler}
-          checkoutConfirmed={this.checkoutConfirmHandler} />
+        {checkoutSummary}
+        <Route
+          path={this.props.match.path + '/contact-data'}
+          component={UserData} />
       </div>
     );
   }

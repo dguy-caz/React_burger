@@ -1,0 +1,14 @@
+.UserData {
+  margin: 20px auto;
+  width: 80%;
+}
+
+.Input {
+  display: block;
+}
+
+@media (min-width) {
+  .UserData {
+    width: 500px;
+  }
+}
