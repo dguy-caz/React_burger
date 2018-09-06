@@ -8,10 +8,6 @@
   text-align: center;
 }
 
-.Input {
-  display: block;
-}
-
 @media (min-width) {
   .UserData {
     width: 500px;
