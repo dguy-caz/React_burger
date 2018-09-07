@@ -7,6 +7,7 @@ import Input from '../../../components/UI/Input/Input';
 class UserData extends Component {
   state = {
     loading: false,
+    formIsValid: false,
     orderForm: {
       name: {
         elementType: 'input',
@@ -14,7 +15,12 @@ class UserData extends Component {
           type: 'text',
           placeholder: 'Your Name'
         },
-        value: ''
+        value: '',
+        validation: {
+          required: true,
+          minLength: 5,
+          valid: false
+        }
       },
       mail: {
         elementType: 'input',
@@ -22,7 +28,12 @@ class UserData extends Component {
           type: 'email',
           placeholder: 'Your mail'
         },
-        value: ''
+        value: '',
+        validation: {
+          required: true,
+          minLength: 5,
+          valid: false
+        }
       },
       phone: {
         elementType: 'input',
@@ -30,7 +41,12 @@ class UserData extends Component {
           type: 'text',
           placeholder: 'Your phone number'
         },
-        value: ''
+        value: '',
+        validation: {
+          required: true,
+          minLength: 5,
+          valid: false
+        }
       },
       street: {
         elementType: 'input',
@@ -38,7 +54,12 @@ class UserData extends Component {
           type: 'text',
           placeholder: 'Your street'
         },
-        value: ''
+        value: '',
+        validation: {
+          required: true,
+          minLength: 5,
+          valid: false
+        }
       },
       postalCode: {
         elementType: 'input',
@@ -46,7 +67,12 @@ class UserData extends Component {
           type: 'text',
           placeholder: 'Your postal code'
         },
-        value: ''
+        value: '',
+        validation: {
+          required: true,
+          minLength: 5,
+          valid: false
+        }
       },
       city: {
         elementType: 'input',
@@ -54,25 +80,30 @@ class UserData extends Component {
           type: 'text',
           placeholder: 'Your city'
         },
-        value: ''
+        value: '',
+        validation: {
+          required: true,
+          minLength: 5,
+          valid: false
+        }
       }
     }
   }
 
   orderHandler = (event) => {
     event.preventDefault();
-    this.setState({ loading: true });
     const formData = {};
     for (let formElement in this.state.orderForm) {
       formData[formElement] = this.state.orderForm[formElement].value
     }
+
+    this.setState({ loading: true });
 
     const order = {
       ingredients: this.props.ingredients,
       price: this.props.totalPrice,
       userData: formData
     }
-
 
     axios.post('/orders.json', order)
       .then(response => {
@@ -89,11 +120,29 @@ class UserData extends Component {
   }
 
   inputchangedHandler = (event, inputId) => {
-    const orderFormUpdated = {...this.state.orderForm};
-    const orderFormElementUpdated = {...orderFormUpdated[inputId]};
+    const orderFormUpdated = { ...this.state.orderForm };
+    const orderFormElementUpdated = { ...orderFormUpdated[inputId] };
     orderFormElementUpdated.value = event.target.value;
+    orderFormElementUpdated.validation.valid = this.checkValidity(orderFormElementUpdated.value, orderFormElementUpdated.validation);
     orderFormUpdated[inputId] = orderFormElementUpdated;
-    this.setState({orderForm: orderFormUpdated});
+    
+    let formIsValid = true;
+    for (let element in orderFormUpdated) {
+      formIsValid = orderFormUpdated[element].validation.valid && formIsValid;
+    }
+    this.setState({ orderForm: orderFormUpdated, formIsValid: formIsValid });
+  }
+
+  checkValidity(value, rules) {
+    let isValid = true;
+
+    if (rules.required && isValid) {
+      isValid = value.trim() !== '';
+    }
+    if (rules.minLength && isValid) {
+      isValid = value.length >= rules.minLength;
+    }
+    return isValid;
   }
 
   render() {
@@ -108,6 +157,7 @@ class UserData extends Component {
     const inputListArray = orderFormArray.map(formElement => (
       <Input
         key={formElement.id}
+        invalid={!formElement.setup.validation.valid}
         elementType={formElement.setup.elementType}
         elementConfig={formElement.setup.elementConfig}
         value={formElement.setup.value}
@@ -117,9 +167,9 @@ class UserData extends Component {
     return (
       <div className={cssClasses.UserData}>
         <h4>Entry your user data</h4>
-        <form onSubmit={this.orderHandler}> 
+        <form onSubmit={this.orderHandler}>
           {inputListArray}
-          <Button buttonType="Success">ORDER</Button>
+          <Button buttonType="Success" disabled={!this.state.formIsValid}>ORDER</Button>
         </form>
       </div>
     );
