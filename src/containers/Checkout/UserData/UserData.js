@@ -3,6 +3,7 @@ import Button from '../../../components/UI/Button/Button';
 import cssClasses from './UserData.css';
 import axios from '../../../axiosOrders';
 import Input from '../../../components/UI/Input/Input';
+import { connect } from 'react-redux';
 
 class UserData extends Component {
   state = {
@@ -176,4 +177,11 @@ class UserData extends Component {
   }
 }
 
-export default UserData;
+const mapStateToProps = state => {
+  return {
+    ingredients: state.ingredients,
+    totalPrice: state.totalPrice
+  }
+};
+
+export default connect(mapStateToProps)(UserData);
