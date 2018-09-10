@@ -9,18 +9,9 @@ import errorHandler from '../../hoc/ErrorHandler/ErrorHandler';
 import { connect } from 'react-redux';
 import * as actionTypes from '../../Store/actions';
 
-
-const INGREDIENTS_PRICE = {
-  salad: 0.3,
-  bacon: 1,
-  cheese: 0.7,
-  meat: 1.5
-};
-
 class BurgerBuilder extends Component {
 
   state = {
-    totalPrice: 3,
     commandOrdered: false,
     loading: false,
     error: false
@@ -34,32 +25,6 @@ class BurgerBuilder extends Component {
     //   .catch(error => {
     //     this.setState({ error: true })
     //   })
-  }
-
-  addIngredientHandler = (type) => {
-    const newIngredients = { ...this.props.ingredients };
-    newIngredients[type] = this.props.ingredients[type] + 1;
-
-    const newPrice = INGREDIENTS_PRICE[type] + this.state.totalPrice;
-
-    this.setState({
-      totalPrice: newPrice,
-      ingredients: newIngredients,
-    });
-  }
-
-  removeIngredientHandler = (type) => {
-    if (this.props.ingredients[type] <= 0)
-      return;
-    const newIngredients = { ...this.props.ingredients };
-    newIngredients[type] = this.props.ingredients[type] - 1;
-
-    const newPrice = this.state.totalPrice - INGREDIENTS_PRICE[type];
-
-    this.setState({
-      totalPrice: newPrice,
-      ingredients: newIngredients,
-    });
   }
 
   toggleSummaryHandler = () => {
@@ -95,14 +60,14 @@ class BurgerBuilder extends Component {
             ingredientAdded={this.props.ingredientAdded}
             ingredientRemoved={this.props.ingredientRemoved}
             disabled={disableClick}
-            price={this.state.totalPrice}
-            purchasable={this.state.totalPrice > 3}
+            price={this.props.totalPrice}
+            purchasable={this.props.totalPrice > 3}
             ordered={this.toggleSummaryHandler} />
         </Fragment>);
 
       orderSummary = <OrderSummary
         ingredients={this.props.ingredients}
-        price={this.state.totalPrice}
+        price={this.props.totalPrice}
         continueCommand={this.continueCommandHandler}
         cancelCommand={this.cancelCommandHandler} />
     }
@@ -122,7 +87,8 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = state => {
   return {
-    ingredients: state.ingredients
+    ingredients: state.ingredients,
+    totalPrice: state.totalPrice
   }
 }
 
