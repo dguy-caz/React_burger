@@ -1,42 +1,40 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const firstState = {
-  ingredients: {
-    salad: 0,
-    bacon: 0,
-    cheese: 0,
-    meat: 0
-  },
-  totalPrice: 3
-};
-
-const INGREDIENTS_PRICE = {
-  salad: 0.3,
-  bacon: 1,
-  cheese: 0.7,
-  meat: 1.5
+  orders: [],
+  purchased: false,
+  loading: false
 };
 
 const reducer = (state = firstState, action) => {
-  if (action.type === actionTypes.ADD_INGREDIENT) {
+  if (action.type === actionTypes.ACCEPT_ORDER) {
+    const newOrder = {
+      ...action.orderData,
+      id: action.orderId
+    };
     return {
       ...state,
-      ingredients: {
-        ...state.ingredients,
-        [action.ingredientName]: state.ingredients[action.ingredientName] + 1
-      },
-      totalPrice: state.totalPrice + INGREDIENTS_PRICE[action.ingredientName]
-    }
+      orders: state.orders.concat(newOrder),
+      loading: false,
+      purchased: true
+    };
   }
-  else if (action.type === actionTypes.REMOVE_INGREDIENT) {
+  else if (action.type === actionTypes.CANCEL_ORDER) {
     return {
       ...state,
-      ingredients: {
-        ...state.ingredients,
-        [action.ingredientName]: state.ingredients[action.ingredientName] - 1
-      },
-      totalPrice: state.totalPrice - INGREDIENTS_PRICE[action.ingredientName]
-    }
+    };
+  }
+  else if (action.type === actionTypes.PURCHASING_ORDER) {
+    return {
+      ...state,
+      loading: true
+    };
+  }
+  else if (action.type === actionTypes.PURCHASE_INIT) {
+    return {
+      ...state,
+      purchased: false
+    };
   }
   else
     return state;
