@@ -36,6 +36,25 @@ const reducer = (state = firstState, action) => {
       purchased: false
     };
   }
+  else if (action.type === actionTypes.ORDERS_INIT) {
+    return {
+      ...state,
+      loading: true
+    };
+  }
+  else if (action.type === actionTypes.ORDERS_DONE) {
+    return {
+      ...state,
+      orders: action.orders,
+      loading: false
+    };
+  }
+  else if (action.type === actionTypes.ORDERS_FAIL) {
+    return {
+      ...state,
+      loading: false
+    };
+  }
   else
     return state;
 }

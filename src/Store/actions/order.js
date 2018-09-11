@@ -26,18 +26,57 @@ export const purchaseInit = () => {
   return {
     type: actionTypes.PURCHASE_INIT
   };
-}
+};
 
 export const orderAccepted = (orderData) => {
   return dispatch => {
     dispatch(purchasingOrder());
     axios.post('/orders.json', orderData)
       .then(response => {
-        console.log(response.data.name);
         dispatch(acceptOrder(response.data.name, orderData));
       })
       .catch(error => {
         dispatch(cancelOrder(error));
+      });
+  }
+};
+
+export const orderDone = (orders) => {
+  return {
+    type: actionTypes.ORDERS_DONE,
+    orders: orders
+  };
+};
+
+export const orderFail = (error) => {
+  return {
+    type: actionTypes.ORDERS_FAIL,
+    error: error
+  };
+};
+
+export const orderInit = () => {
+  return {
+    type: actionTypes.ORDERS_INIT,
+  };
+};
+
+export const getOrders = () => {
+  return dispatch => {
+    dispatch(orderInit());
+    axios.get('/orders.json')
+      .then(response => {
+        const ordersArray = [];
+        for (let key in response.data) {
+          ordersArray.push({
+            ...response.data[key],
+            id: key
+          });
+        }
+        dispatch(orderDone(ordersArray));
+      })
+      .catch(error => {
+        dispatch(orderFail(error));
       });
   }
 };

@@ -7,5 +7,6 @@ export {
 
 export {
   orderAccepted,
-  purchaseInit
+  purchaseInit,
+  getOrders
 } from './order';

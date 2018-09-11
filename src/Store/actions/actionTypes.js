@@ -7,3 +7,8 @@ export const ACCEPT_ORDER = 'ACCEPT_ORDER';
 export const CANCEL_ORDER = 'CANCEL_ORDER';
 export const PURCHASING_ORDER = 'PURCHASING_ORDER';
 export const PURCHASE_INIT = 'PURCHASE_INIT';
+
+export const ORDERS_INIT = 'ORDERS_INIT';
+export const ORDERS_DONE = 'ORDERS_DONE';
+export const ORDERS_FAIL = 'ORDERS_FAIL';
+
