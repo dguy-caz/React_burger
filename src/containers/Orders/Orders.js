@@ -16,11 +16,12 @@ class Orders extends Component {
     if (!this.props.loading) {
       orders = this.props.orders.map(order => (
         <Order
-          key={order.id}
+          key={order.id + Math.random()}
           ingredients={order.ingredients}
           price={+order.price} />
       ))
     }
+    console.log(orders);
     return (
       <div>
         {orders}
