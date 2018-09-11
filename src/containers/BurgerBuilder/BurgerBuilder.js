@@ -12,19 +12,11 @@ import * as actionCreators from '../../Store/actions/index';
 class BurgerBuilder extends Component {
 
   state = {
-    commandOrdered: false,
-    loading: false,
-    error: false
+    commandOrdered: false
   }
 
   componentDidMount() {
-    // axios.request('https://burger-react-project-9a7f3.firebaseio.com/ingredients.json')
-    //   .then(response => {
-    //     this.setState({ ingredients: response.data });
-    //   })
-    //   .catch(error => {
-    //     this.setState({ error: true })
-    //   })
+    this.props.initIngredients();
   }
 
   toggleSummaryHandler = () => {
@@ -42,7 +34,7 @@ class BurgerBuilder extends Component {
 
   render() {
 
-    let burger = this.state.error ? <p style={{ textAlign: 'center' }}>The ingredients can't be loaded...</p> : <Spinner />;
+    let burger = this.props.error ? <p style={{ textAlign: 'center' }}>The ingredients can't be loaded...</p> : <Spinner />;
     let orderSummary = null;
 
     if (this.props.ingredients) {
@@ -68,8 +60,6 @@ class BurgerBuilder extends Component {
         continueCommand={this.continueCommandHandler}
         cancelCommand={this.cancelCommandHandler} />
     }
-    if (this.state.loading)
-      orderSummary = <Spinner />
 
     return (
       <Fragment>
@@ -85,14 +75,16 @@ class BurgerBuilder extends Component {
 const mapStateToProps = state => {
   return {
     ingredients: state.ingredients,
-    totalPrice: state.totalPrice
+    totalPrice: state.totalPrice,
+    error: state.error
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     ingredientAdded: (iName) => dispatch(actionCreators.addIngredient(iName)),
-    ingredientRemoved: (iName) => dispatch(actionCreators.removeIngredient(iName))
+    ingredientRemoved: (iName) => dispatch(actionCreators.removeIngredient(iName)),
+    initIngredients: () => dispatch(actionCreators.initIngredients()),
   }
 }
 
