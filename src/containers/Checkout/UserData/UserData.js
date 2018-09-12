@@ -34,7 +34,7 @@ class UserData extends Component {
         value: '',
         validation: {
           required: true,
-          minLength: 5,
+          isEmail: true,
           valid: false
         }
       },
@@ -126,11 +126,15 @@ class UserData extends Component {
   checkValidity(value, rules) {
     let isValid = true;
 
-    if (rules.required && isValid) {
+    if (!rules)
+      return true;
+    if (rules.required && isValid)
       isValid = value.trim() !== '';
-    }
-    if (rules.minLength && isValid) {
+    if (rules.minLength && isValid)
       isValid = value.length >= rules.minLength;
+    if (rules.isEmail) {
+      const pattern = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+      isValid = pattern.test(value) && isValid
     }
     return isValid;
   }

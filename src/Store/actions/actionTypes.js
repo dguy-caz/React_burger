@@ -12,3 +12,7 @@ export const ORDERS_INIT = 'ORDERS_INIT';
 export const ORDERS_DONE = 'ORDERS_DONE';
 export const ORDERS_FAIL = 'ORDERS_FAIL';
 
+export const AUTH_INIT = 'AUTH_INIT';
+export const AUTH_DONE = 'AUTH_DONE';
+export const AUTH_FAIL = 'AUTH_FAIL';
+

@@ -25,9 +25,3 @@
   border: 1px solid red;
   background-color: rgb(255, 208, 208);
 }
-
-.InputElement:focus {
-  outline: none;
-  background-color: #ccc;
-}
-

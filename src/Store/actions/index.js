@@ -10,3 +10,7 @@ export {
   purchaseInit,
   getOrders
 } from './order';
+
+export {
+  authentication
+} from './auth';
