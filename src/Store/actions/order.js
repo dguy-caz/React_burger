@@ -28,10 +28,10 @@ export const purchaseInit = () => {
   };
 };
 
-export const orderAccepted = (orderData) => {
+export const orderAccepted = (orderData, token) => {
   return dispatch => {
     dispatch(purchasingOrder());
-    axios.post('/orders.json', orderData)
+    axios.post('/orders.json?auth=' + token, orderData)
       .then(response => {
         dispatch(acceptOrder(response.data.name, orderData));
       })
@@ -61,10 +61,10 @@ export const orderInit = () => {
   };
 };
 
-export const getOrders = () => {
+export const getOrders = (token) => {
   return dispatch => {
     dispatch(orderInit());
-    axios.get('/orders.json')
+    axios.get('/orders.json?auth=' + token)
       .then(response => {
         const ordersArray = [];
         for (let key in response.data) {

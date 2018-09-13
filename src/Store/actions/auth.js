@@ -22,6 +22,21 @@ export const authFail = error => {
   };
 };
 
+export const checkAuthTimeout = timeout => {
+  return dispatch => {
+    console.log(timeout);
+    setTimeout(() => {
+      dispatch(authLogOut());
+    }, timeout * 1000);
+  }
+};
+
+export const authLogOut = () => {
+  return {
+    type: actionTypes.AUTH_LOGOUT
+  };
+};
+
 export const authentication = (email, password, isSignUp) => {
   return dispatch => {
     dispatch(authInit());
@@ -31,13 +46,12 @@ export const authentication = (email, password, isSignUp) => {
       returnSecureToken: true
     };
     let url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyCEGw2txD7F5EnifMpWi3WtOJ5o1HN_uCk';
-    console.log(isSignUp);
     if (!isSignUp)
       url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyCEGw2txD7F5EnifMpWi3WtOJ5o1HN_uCk';
     axios.post(url, authData)
       .then(response => {
-        console.log(response);
-        dispatch(authDone(response.Data.idToken, response.Data.localId));
+        dispatch(authDone(response.data.idToken, response.data.localId));
+        dispatch(checkAuthTimeout(response.data.expiresIn));
       })
       .catch(error => {
         console.log(error);

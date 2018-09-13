@@ -106,7 +106,7 @@ class UserData extends Component {
       userData: formData
     }
 
-    this.props.orderAccepted(order);
+    this.props.orderAccepted(order, this.props.token);
   }
 
   inputchangedHandler = (event, inputId) => {
@@ -177,13 +177,14 @@ const mapStateToProps = state => {
   return {
     ingredients: state.burgerBuilder.ingredients,
     totalPrice: state.burgerBuilder.totalPrice,
-    loading: state.order.loading
+    loading: state.order.loading,
+    token: state.authentication.token
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    orderAccepted: (orderData) => dispatch(actionCreators.orderAccepted(orderData))
+    orderAccepted: (orderData, token) => dispatch(actionCreators.orderAccepted(orderData, token))
   };
 };
 
