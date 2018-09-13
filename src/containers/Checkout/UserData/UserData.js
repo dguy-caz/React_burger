@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import errorHandler from '../../../hoc/ErrorHandler/ErrorHandler';
 import axios from '../../../axiosOrders';
 import * as actionCreators from '../../../Store/actions/index';
+import { checkValidity } from '../../../Shared/utility';
 
 class UserData extends Component {
   state = {
@@ -21,7 +22,7 @@ class UserData extends Component {
         value: '',
         validation: {
           required: true,
-          minLength: 5,
+          minLength: 2,
           valid: false
         }
       },
@@ -47,7 +48,7 @@ class UserData extends Component {
         value: '',
         validation: {
           required: true,
-          minLength: 5,
+          isNumeric: true,
           valid: false
         }
       },
@@ -60,7 +61,6 @@ class UserData extends Component {
         value: '',
         validation: {
           required: true,
-          minLength: 5,
           valid: false
         }
       },
@@ -73,6 +73,7 @@ class UserData extends Component {
         value: '',
         validation: {
           required: true,
+          isNumeric: true,
           minLength: 5,
           valid: false
         }
@@ -86,7 +87,6 @@ class UserData extends Component {
         value: '',
         validation: {
           required: true,
-          minLength: 5,
           valid: false
         }
       }
@@ -114,7 +114,7 @@ class UserData extends Component {
     const orderFormUpdated = { ...this.state.orderForm };
     const orderFormElementUpdated = { ...orderFormUpdated[inputId] };
     orderFormElementUpdated.value = event.target.value;
-    orderFormElementUpdated.validation.valid = this.checkValidity(orderFormElementUpdated.value, orderFormElementUpdated.validation);
+    orderFormElementUpdated.validation.valid = checkValidity(orderFormElementUpdated.value, orderFormElementUpdated.validation);
     orderFormUpdated[inputId] = orderFormElementUpdated;
 
     let formIsValid = true;
@@ -122,22 +122,6 @@ class UserData extends Component {
       formIsValid = orderFormUpdated[element].validation.valid && formIsValid;
     }
     this.setState({ orderForm: orderFormUpdated, formIsValid: formIsValid });
-  }
-
-  checkValidity(value, rules) {
-    let isValid = true;
-
-    if (!rules)
-      return true;
-    if (rules.required && isValid)
-      isValid = value.trim() !== '';
-    if (rules.minLength && isValid)
-      isValid = value.length >= rules.minLength;
-    if (rules.isEmail) {
-      const pattern = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
-      isValid = pattern.test(value) && isValid
-    }
-    return isValid;
   }
 
   render() {

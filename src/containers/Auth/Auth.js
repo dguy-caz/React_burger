@@ -6,6 +6,7 @@ import * as actionCreators from '../../Store/actions/index';
 import { connect } from 'react-redux';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { Redirect } from 'react-router-dom';
+import { checkValidity } from '../../Shared/utility';
 
 class Auth extends Component {
   state = {
@@ -56,28 +57,12 @@ class Auth extends Component {
         value: event.target.value,
         validation: {
           ...this.state.authForm[inputId].validation,
-          valid: this.checkValidity(event.target.value, this.state.authForm[inputId].validation),
+          valid: checkValidity(event.target.value, this.state.authForm[inputId].validation),
           touched: true
         }
       }
     };
     this.setState({ authForm: authFormUpdated });
-  }
-
-  checkValidity(value, rules) {
-    let isValid = true;
-
-    if (!rules)
-      return true;
-    if (rules.required && isValid)
-      isValid = value.trim() !== '';
-    if (rules.minLength && isValid)
-      isValid = value.length >= rules.minLength;
-    if (rules.isEmail) {
-      const pattern = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
-      isValid = pattern.test(value) && isValid
-    }
-    return isValid;
   }
 
   submitHandler = event => {
@@ -112,10 +97,10 @@ class Auth extends Component {
 
     let redirection = null;
     if (this.props.isAuth) {
-      if (this.props.isBuilding) {
-        redirection = <Redirect to='/checkout' />;}
-      else {
-        redirection = <Redirect to='/' />;}
+      if (this.props.isBuilding)
+        redirection = <Redirect to='/checkout' />;
+      else
+        redirection = <Redirect to='/' />;
     }
 
     return (
@@ -130,7 +115,6 @@ class Auth extends Component {
           click={this.switchAuthModeHandler}
           buttonType="Danger">Switch to {this.state.isSignUp ? 'SIGN IN' : 'SIGN UP'}</Button>
       </div >
-
     );
   }
 }
