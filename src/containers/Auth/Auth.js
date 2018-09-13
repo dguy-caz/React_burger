@@ -112,10 +112,10 @@ class Auth extends Component {
 
     let redirection = null;
     if (this.props.isAuth) {
-      if (this.props.isBuilding)
-        redirection = <Redirect to='/checkout' />;
-      else
-        redirection = <Redirect to='/' />;
+      if (this.props.isBuilding) {
+        redirection = <Redirect to='/checkout' />;}
+      else {
+        redirection = <Redirect to='/' />;}
     }
 
     return (

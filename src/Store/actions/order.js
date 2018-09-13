@@ -61,10 +61,10 @@ export const orderInit = () => {
   };
 };
 
-export const getOrders = (token) => {
+export const getOrders = (token, userId) => {
   return dispatch => {
     dispatch(orderInit());
-    axios.get('/orders.json?auth=' + token)
+    axios.get('/orders.json?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"')
       .then(response => {
         const ordersArray = [];
         for (let key in response.data) {
