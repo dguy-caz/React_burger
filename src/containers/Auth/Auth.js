@@ -4,9 +4,11 @@ import Button from '../../components/UI/Button/Button';
 import cssClasses from './Auth.css';
 import * as actionCreators from '../../Store/actions/index';
 import { connect } from 'react-redux';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 class Auth extends Component {
   state = {
+    isSignUp: true,
     authForm: {
       email: {
         elementType: 'input',
@@ -35,6 +37,14 @@ class Auth extends Component {
         }
       },
     }
+  }
+
+  switchAuthModeHandler = () => {
+    this.setState(prevState => {
+      return {
+        isSignUp: !prevState.isSignUp
+      }
+    })
   }
 
   inputchangedHandler = (event, inputId) => {
@@ -71,7 +81,7 @@ class Auth extends Component {
 
   submitHandler = event => {
     event.preventDefault();
-    this.props.authentication(this.state.authForm.email.value, this.state.authForm.password.value);
+    this.props.authentication(this.state.authForm.email.value, this.state.authForm.password.value, this.state.isSignUp);
   }
 
   render() {
@@ -92,23 +102,40 @@ class Auth extends Component {
         value={formElement.setup.value}
         changed={(event) => this.inputchangedHandler(event, formElement.id)} />
     ))
+    if (this.props.loading)
+      form = <Spinner />;
+
+    let errorMessage = null;
+    if (this.props.error)
+      errorMessage = <p style={{textAlign: 'center'}}>{this.props.error.message}</p>
 
     return (
       <div className={cssClasses.Auth}>
+        {errorMessage}
         <form onSubmit={this.submitHandler}>
           {form}
           <Button buttonType="Success">SUBMIT</Button>
         </form>
+        <Button
+          click={this.switchAuthModeHandler}
+          buttonType="Danger">Switch to {this.state.isSignUp ? 'SIGN IN' : 'SIGN UP'}</Button>
       </div>
 
     );
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    loading: state.authentication.loading,
+    error: state.authentication.error
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
-    authentication: (email, password) => dispatch(actionCreators.authentication(email, password))
+    authentication: (email, password, isSignUp) => dispatch(actionCreators.authentication(email, password, isSignUp))
   };
 };
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
