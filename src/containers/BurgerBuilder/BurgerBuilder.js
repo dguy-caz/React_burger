@@ -20,7 +20,10 @@ class BurgerBuilder extends Component {
   }
 
   toggleSummaryHandler = () => {
-    this.setState({ commandOrdered: true });
+    if (this.props.isAuth)
+      this.setState({ commandOrdered: true });
+    else
+      this.props.history.push('/auth');
   }
 
   cancelCommandHandler = () => {
@@ -47,6 +50,7 @@ class BurgerBuilder extends Component {
         <Fragment>
           <Burger ingredients={this.props.ingredients} />
           <Controls
+            isAuth={this.props.isAuth}
             ingredientAdded={this.props.ingredientAdded}
             ingredientRemoved={this.props.ingredientRemoved}
             disabled={disableClick}
@@ -77,7 +81,8 @@ const mapStateToProps = state => {
   return {
     ingredients: state.burgerBuilder.ingredients,
     totalPrice: state.burgerBuilder.totalPrice,
-    error: state.burgerBuilder.error
+    error: state.burgerBuilder.error,
+    isAuth: state.authentication.token !== null
   }
 }
 

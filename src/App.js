@@ -5,9 +5,15 @@ import Checkout from './containers/Checkout/Checkout';
 import Orders from './containers/Orders/Orders';
 import Auth from './containers/Auth/Auth';
 import LogOut from './containers/Auth/Logout/Logout';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as actionCreators from './Store/actions/index';
 
 class App extends Component {
+  componentDidMount () {
+    this.props.autoSignIn();
+  }
+
   render() {
     return (
       <div>
@@ -25,4 +31,10 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => {
+  return {
+    autoSignIn: () => dispatch(actionCreators.authCheckLocalStorage())
+  }
+}
+
+export default withRouter(connect(null, mapDispatchToProps)(App));

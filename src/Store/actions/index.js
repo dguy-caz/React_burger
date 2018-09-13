@@ -13,5 +13,6 @@ export {
 
 export {
   authentication,
-  authLogOut
+  authLogOut,
+  authCheckLocalStorage
 } from './auth';

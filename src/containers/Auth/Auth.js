@@ -5,6 +5,7 @@ import cssClasses from './Auth.css';
 import * as actionCreators from '../../Store/actions/index';
 import { connect } from 'react-redux';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import { Redirect } from 'react-router-dom';
 
 class Auth extends Component {
   state = {
@@ -107,19 +108,28 @@ class Auth extends Component {
 
     let errorMessage = null;
     if (this.props.error)
-      errorMessage = <p style={{textAlign: 'center'}}>{this.props.error.message}</p>
+      errorMessage = <p style={{ textAlign: 'center' }}>{this.props.error.message}</p>
+
+    let redirection = null;
+    if (this.props.isAuth) {
+      if (this.props.isBuilding)
+        redirection = <Redirect to='/checkout' />;
+      else
+        redirection = <Redirect to='/' />;
+    }
 
     return (
-      <div className={cssClasses.Auth}>
+      <div className={cssClasses.Auth} >
+        {redirection}
         {errorMessage}
-        <form onSubmit={this.submitHandler}>
+        <form onSubmit={this.submitHandler} >
           {form}
-          <Button buttonType="Success">SUBMIT</Button>
-        </form>
+          < Button buttonType="Success" > SUBMIT</Button>
+        </form >
         <Button
           click={this.switchAuthModeHandler}
           buttonType="Danger">Switch to {this.state.isSignUp ? 'SIGN IN' : 'SIGN UP'}</Button>
-      </div>
+      </div >
 
     );
   }
@@ -128,7 +138,9 @@ class Auth extends Component {
 const mapStateToProps = state => {
   return {
     loading: state.authentication.loading,
-    error: state.authentication.error
+    error: state.authentication.error,
+    isAuth: state.authentication.token !== null,
+    isBuilding: state.burgerBuilder.building
   }
 }
 
