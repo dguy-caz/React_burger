@@ -5,6 +5,7 @@
   border-radius: 0 0 30px 30px;
   box-shadow: inset -15px 0 #c15711;
   margin: 2% auto;
+  box-shadow: 0 3px 2px #ccc;
 }
 
 .BreadTop {
@@ -15,6 +16,7 @@
   box-shadow: inset -15px 0 #c15711;
   margin: 2% auto;
   position: relative;
+  box-shadow: 0 3px 2px #ccc;
 }
 
 .Seeds1 {
@@ -87,6 +89,7 @@
   background: linear-gradient(#7f3608, #702e05);
   margin: 2% auto;
   border-radius: 15px;
+  box-shadow: 0 3px 2px #ccc;
 }
 
 .Cheese {
@@ -95,6 +98,7 @@
   margin: 2% auto;
   background: linear-gradient(#f4d004, #d6bb22);
   border-radius: 20px;
+  box-shadow: 0 3px 2px #ccc;
 }
 
 .Salad {
@@ -103,6 +107,7 @@
   margin: 2% auto;
   background: linear-gradient(#228c1d, #91ce50);
   border-radius: 20px;
+  box-shadow: 0 3px 2px #ccc;
 }
 
 .Bacon {
@@ -110,4 +115,5 @@
   height: 3%;
   background: linear-gradient(#bf3813, #c45e38);
   margin: 2% auto;
+  box-shadow: 0 3px 2px #ccc;
 }

@@ -6,7 +6,7 @@ const orderSummary = (props) => {
     return (
       <li key={ikey}>
         <span style={{ textTransform: 'capitalize' }}>{ikey}</span>: {props.ingredients[ikey]}
-      </li> );
+      </li>);
   });
 
   return (

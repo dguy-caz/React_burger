@@ -1,16 +1,35 @@
 .Controls {
-  width: 100%;
-  background-color: #CF8F2E;
+  width: 40%;
+  height: 100%;
+  background-color: rgb(216, 166, 92);
   display: flex;
   flex-flow: column;
   align-items: center;
-  box-shadow: 0 2px 1px #ccc;
-  margin: auto;
-  padding: 10px 0;
+  box-shadow: 0 3px 2px #ccc;
+  margin-right: 10%;
+  float: right;
+  border-radius: 3px;
+  padding-top: 30px;
+  color: rgb(80, 49, 21);
+  border: 2px solid rgb(184, 144, 85);
+}
+
+@media (max-width: 800px) {
+  .Controls {
+    width: 100%;
+    float: none;
+    padding-top: 10px;
+  }
+}
+
+@media (max-height: 400px) {
+  .Controls {
+    height: 400px;
+  }
 }
 
 .OrderButton {
-  background-color: #DAD735;
+  background-color: rgb(221, 199, 101);
   outline: none;
   cursor: pointer;
   border: 1px solid #966909;
@@ -19,10 +38,17 @@
   font-size: 1.2em;
   padding: 15px 30px;
   box-shadow: 2px 2px 2px #966909;
+  margin-top: 70px;
+}
+
+@media (max-width: 800px) {
+  .OrderButton {
+    margin-top: 10px;
+  }
 }
 
 .OrderButton:hover, .OrderButton:active {
-  background-color: #A0DB41;
+  background-color: rgb(183, 228, 142);
   border: 1px solid #966909;
   color: #966909;
 }

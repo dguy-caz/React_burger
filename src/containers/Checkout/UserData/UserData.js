@@ -22,7 +22,6 @@ class UserData extends Component {
         value: '',
         validation: {
           required: true,
-          minLength: 2,
           valid: false
         }
       },
@@ -42,13 +41,12 @@ class UserData extends Component {
       phone: {
         elementType: 'input',
         elementConfig: {
-          type: 'text',
+          type: 'number',
           placeholder: 'Your phone number'
         },
         value: '',
         validation: {
           required: true,
-          isNumeric: true,
           valid: false
         }
       },
@@ -64,17 +62,15 @@ class UserData extends Component {
           valid: false
         }
       },
-      postalCode: {
+      zipCode: {
         elementType: 'input',
         elementConfig: {
-          type: 'text',
-          placeholder: 'Your postal code'
+          type: 'number',
+          placeholder: 'Your zip code'
         },
         value: '',
         validation: {
           required: true,
-          isNumeric: true,
-          minLength: 5,
           valid: false
         }
       },

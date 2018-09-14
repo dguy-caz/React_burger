@@ -13,7 +13,7 @@ const burger = (props) => {
     ingredientArray = <p>Please add some ingredients</p>;
 
   return (
-    <div className={cssClasses.Burger}>
+    <div className={props.changeStyle ? cssClasses.BurgerOrdered : cssClasses.Burger}>
       <Ingredient type="bread-top" />
       {ingredientArray}
       <Ingredient type="bread-bottom" />

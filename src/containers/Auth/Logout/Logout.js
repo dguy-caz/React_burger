@@ -4,7 +4,7 @@ import * as actionCreators from '../../../Store/actions/index';
 import { Redirect } from 'react-router-dom';
 
 class Logout extends Component {
-  componentDidMount () {
+  componentDidMount() {
     this.props.logOut();
   }
 

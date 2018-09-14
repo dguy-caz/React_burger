@@ -2,7 +2,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 5px 0;
+  margin: 15px 0;
+}
+
+@media (max-width: 800px) {
+  .Control {
+    margin: 2px 0;
+  }
 }
 
 .Control button {
@@ -41,7 +47,7 @@
 }
 
 .Control .More {
-  background-color: #8F5E1E;
+  background-color: rgb(133, 95, 46);
   color: white;
 }
 

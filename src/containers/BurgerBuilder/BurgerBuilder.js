@@ -32,7 +32,7 @@ class BurgerBuilder extends Component {
 
   continueCommandHandler = () => {
     this.props.purchaseInit();
-    this.props.history.push({pathname: '/checkout'});
+    this.props.history.push({ pathname: '/checkout' });
   }
 
 
@@ -47,7 +47,7 @@ class BurgerBuilder extends Component {
         disableClick[key] = disableClick[key] <= 0;
 
       burger = (
-        <Fragment>
+        <div style={{ width: '100%', height: '80%', marginBottom: '5%', position: 'absolute' }}>
           <Burger ingredients={this.props.ingredients} />
           <Controls
             isAuth={this.props.isAuth}
@@ -57,7 +57,7 @@ class BurgerBuilder extends Component {
             price={this.props.totalPrice}
             purchasable={this.props.totalPrice > 3}
             ordered={this.toggleSummaryHandler} />
-        </Fragment>);
+        </div>);
 
       orderSummary = <OrderSummary
         ingredients={this.props.ingredients}

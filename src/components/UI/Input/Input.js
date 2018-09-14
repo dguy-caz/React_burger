@@ -12,7 +12,7 @@ const input = (props) => {
   if (props.elementType === 'input') {
     inputElement = <input
       className={inputCssClasses.join(' ')}
-      {...props.elementConfig} 
+      {...props.elementConfig}
       value={props.value}
       onChange={props.changed} />
   }

@@ -10,7 +10,7 @@ import { checkValidity } from '../../Shared/utility';
 
 class Auth extends Component {
   state = {
-    isSignUp: true,
+    isSignUp: false,
     authForm: {
       email: {
         elementType: 'input',
